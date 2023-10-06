@@ -303,9 +303,11 @@ nav a {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #login {
 	width: 50%;
 	margin: auto;
+	margin-bottom: 20%;
 }
 
 #login>* {
@@ -335,9 +337,13 @@ nav a {
 	margin: 2em 0 1em 0;
 }
 
-#login textarea {
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+#login a {
+	color: #3D3D3D;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	align-self: center;
 }
 
 input[type="submit"] {
