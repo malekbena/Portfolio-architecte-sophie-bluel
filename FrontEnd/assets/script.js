@@ -10,6 +10,7 @@ const categories = document.querySelector(".categories")
 
 initWorks()
 displayCatsBtn()
+let token = window.localStorage.getItem("token")
 
 async function getWorks(api_url) {
     const url = api_url + "works"
