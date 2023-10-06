@@ -7,10 +7,12 @@ let selectedCat = 0
 
 const gallery = document.querySelector(".gallery")
 const categories = document.querySelector(".categories")
+const logBtn = document.querySelector("#log-btn")
+let token = window.localStorage.getItem("token")
 
 initWorks()
 displayCatsBtn()
-let token = window.localStorage.getItem("token")
+displayLogBtn()
 
 async function getWorks(api_url) {
     const url = api_url + "works"
@@ -77,4 +79,18 @@ function changeCat(catId) {
     gallery.innerHTML = ""
     displayWorks(selectedCat)
     displayCatsBtn()
+}
+
+function displayLogBtn() {
+    if (token !== null) {
+        logBtn.innerHTML = `<a class='logout-btn'>logout</a>`
+        const logoutBtn = document.querySelector(".logout-btn")
+        logoutBtn.addEventListener("click", (e) => {
+            e.preventDefault()
+            window.localStorage.removeItem("token")
+            window.location.href = "index.html"
+        })
+    } else {
+        logBtn.innerHTML = `<a class='login-btn' href='login.html'>login</a>`
+    }
 }

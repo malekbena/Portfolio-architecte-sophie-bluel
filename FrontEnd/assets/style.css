@@ -345,6 +345,17 @@ nav a {
 	font-weight: 500;
 	align-self: center;
 }
+.logout-btn {
+	/* color: #3D3D3D;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	align-self: center;
+	border: none;
+	background-color: transparent; */
+	cursor: pointer;
+}
 
 input[type="submit"] {
 	font-family: 'Syne';
