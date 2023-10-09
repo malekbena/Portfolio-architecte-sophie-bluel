@@ -387,6 +387,7 @@ footer nav ul {
 	margin: 2em
 }
 
+/**** modal ****/
 .modal {
 	position: fixed;
 	display: flex;
@@ -403,10 +404,10 @@ footer nav ul {
 .modal-wrapper {
 	overflow: auto;
 	max-width: 630px;
-	max-height: 690px;
-	height: 100%;
+	max-height: 730px;
 	padding: 20px;
 	background-color: #FFF;
+	border-radius: 10px;
 }
 
 #titlemodal {
@@ -418,18 +419,74 @@ footer nav ul {
 	line-height: normal;
 	color: #000;
 }
-.modal-top-btn{
+
+.modal-top-btn {
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
 }
-.modal-top-btn button{
+
+.modal-top-btn button {
 	background-color: transparent;
 	border: none;
 	cursor: pointer;
 }
-.back-modal{
+
+.back-modal {
 	display: none;
 }
-.close-modal {
+
+.close-modal {}
+
+.modal-gallery {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-column-gap: 10px;
+	grid-row-gap: 20px;
+	padding: 3em;
+
+}
+
+.modal-gallery img {
+	width: 100%;
+}
+
+.modal-gallery figure {
+	position: relative;
+}
+
+.modal-delete-btn {
+	position: absolute;
+	right: 5px;
+	top: 10px;
+	border: none;
+	background-color: #000;
+	color: #FFF;
+	cursor: pointer;
+	padding: 3px 4px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-separator {
+	height: 1px;
+	background: #B3B3B3;
+	margin: 3em;
+}
+.modal-bottom{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.modal__add-btn {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	text-align: center;
+	border-radius: 60px;
+	border: none;
+	padding: 10px 50px;
+	cursor: pointer;
 }
