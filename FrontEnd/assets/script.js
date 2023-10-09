@@ -61,6 +61,28 @@ const displayWorks = (selectedCat) => {
     })
 }
 
+const deleteWork = (e) => {
+    const workId = e.currentTarget.value
+    const url = api_url + "works/" + workId
+    fetch(url, {
+        headers: { "Authorization": "Bearer " + token },
+        method: "DELETE",
+    }).then(response => {
+        if (response.status == 204) {
+            works.forEach(work => {
+                if (work.id == workId) {
+                    works.delete(work)
+                }
+            })
+            gallery.innerHTML = ""
+            initWorks()
+            modalGallery = false
+            document.querySelector(".modal-gallery").innerHTML = ""
+            displayModalImages()
+        }
+
+    })
+}
 async function displayCatsBtn() {
     const cats = await getCats(api_url)
     categories.innerHTML = `<button class='cats-btn ${selectedCat == 0 ? "cats-btn-selected" : ""}' id='0'>Tous</button>`
@@ -119,9 +141,7 @@ window.addEventListener("keydown", (e) => {
     }
 })
 
-const deleteWork = (e) => {
-    console.log(e.currentTarget.value)
-}
+
 
 /** display images on modal */
 const displayModalImages = () => {
