@@ -3,32 +3,37 @@ const api_url = "http://localhost:5678/api/"
 
 let works = new Set()
 let selectedWorks = new Set()
+let categories = new Set()
 let selectedCat = 0
 
 const gallery = document.querySelector(".gallery")
-const categories = document.querySelector(".categories")
 const logBtn = document.querySelector("#log-btn")
 let token = window.localStorage.getItem("token")
 let modal = null
 
 initWorks()
-displayCatsBtn()
+initCategories()
 
-async function getWorks(api_url) {
+async function getWorks() {
     const url = api_url + "works"
     const response = await fetch(url)
     var data = await response.json()
-    data.forEach(element => {
-        works.add(element)
-    });
     return data
 }
 
-async function getCats(api_url) {
+async function getCategories() {
     const url = api_url + "categories"
     const response = await fetch(url)
     var data = await response.json()
     return data
+}
+async function initCategories() {
+    categories.clear()
+    const data = await getCategories(api_url)
+    data.forEach(cat => {
+        categories.add(cat)
+    })
+    displayCatsBtn()
 }
 
 async function initWorks() {
@@ -77,11 +82,11 @@ const deleteWork = (e) => {
 
     })
 }
-async function displayCatsBtn() {
-    const cats = await getCats(api_url)
-    categories.innerHTML = `<button class='cats-btn ${selectedCat == 0 ? "cats-btn-selected" : ""}' id='0'>Tous</button>`
-    cats.forEach(cat => {
-        categories.innerHTML += `<button class="cats-btn ${selectedCat == cat.id ? "cats-btn-selected" : ""} " id="${cat.id}">${cat.name}</button>`
+const displayCatsBtn = () => {
+    const categoriesHtml = document.querySelector(".categories")
+    categoriesHtml.innerHTML = `<button class='cats-btn ${selectedCat == 0 ? "cats-btn-selected" : ""}' id='0'>Tous</button>`
+    categories.forEach(cat => {
+        categoriesHtml.innerHTML += `<button class="cats-btn ${selectedCat == cat.id ? "cats-btn-selected" : ""} " id="${cat.id}">${cat.name}</button>`
     })
     const catsBtn = document.querySelectorAll(".cats-btn")
     catsBtn.forEach(catBtn => {
@@ -98,6 +103,32 @@ const changeCat = (catId) => {
     displayCatsBtn()
 }
 
+
+const openAddModal = () => {
+    if (modal === null) return
+    document.querySelector("#titlemodal").innerHTML = "Ajout photo"
+    document.querySelector(".modal-gallery").style.display = "none"
+    document.querySelector(".modal-content").style.display = "none"
+    document.querySelector(".modal-form").style.display = "flex"
+    document.querySelector(".back-modal").style.display = "flex"
+    document.querySelector(".back-modal").addEventListener("click", closeAddModal)
+    document.querySelector("#form-category").innerHTML = "<option value='0'></option>"
+    categories.forEach(cat => {
+        document.querySelector("#form-category").innerHTML += `<option value="${cat.id}">${cat.name}</option>`
+    })
+}
+const closeAddModal = () => {
+    if (modal === null) return
+    document.querySelector("#titlemodal").innerHTML = "Modifier la galerie"
+    document.querySelector(".modal-gallery").style.display = "grid"
+    document.querySelector(".modal-content").style.display = "block"
+    document.querySelector(".modal-form").style.display = "none"
+    document.querySelector(".back-modal").style.display = "none"
+    document.querySelector("#form-category").innerHTML = ""
+}
+
+
+
 /** modal ***/
 const openModal = (e) => {
     e.preventDefault()
@@ -110,7 +141,8 @@ const openModal = (e) => {
     modal.querySelector(".close-modal").addEventListener("click", closeModal)
     modal.querySelector(".modal-wrapper").addEventListener("click", stopPropagation)
     displayModalImages()
-    modalGallery = true
+    modal.querySelector(".modal-btn").addEventListener("click", openAddModal)
+
 }
 
 const closeModal = (e) => {
@@ -120,6 +152,7 @@ const closeModal = (e) => {
     modal.setAttribute("aria-hidden", "true")
     modal.removeAttribute("aria-modal")
     modal.removeEventListener("click", closeModal)
+    closeAddModal()
     modal.querySelector(".close-modal").removeEventListener("click", closeModal)
     modal.querySelector(".modal-wrapper").removeEventListener("click", stopPropagation)
     modal = null
@@ -135,16 +168,14 @@ window.addEventListener("keydown", (e) => {
     }
 })
 
-
-
 /** display images on modal */
 const displayModalImages = () => {
     if (modal !== null) {
-        if(works.size == 0) return
+        if (works.size == 0) return
         const modalGallery = document.querySelector(".modal-gallery")
         modalGallery.innerHTML = ""
-            works.forEach(work => {
-                modalGallery.innerHTML += `
+        works.forEach(work => {
+            modalGallery.innerHTML += `
                 <figure>
                 <button class='modal-delete-btn' value="${work.id}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="9" height="11" viewBox="0 0 9 11" fill="none">
@@ -153,7 +184,7 @@ const displayModalImages = () => {
                 </button>
                 <img src="${work.imageUrl}" alt="${work.title}">
                 </figure>`
-            })
+        })
         document.querySelectorAll(".modal-delete-btn").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 e.preventDefault()
