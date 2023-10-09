@@ -228,6 +228,21 @@ nav a {
 	margin-bottom: 1em;
 }
 
+.projects-title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#edit-gallery{
+	display: flex;
+	border: none;
+align-items: end;
+	background: transparent;
+	gap: 1em;
+	margin-bottom: 2em;
+	margin-left: 2em;
+}
+
 .categories {
 	display: flex;
 	flex-direction: row;
