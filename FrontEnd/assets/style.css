@@ -233,14 +233,14 @@ nav a {
 	justify-content: center;
 	align-items: center;
 }
-#edit-gallery{
+
+#edit-gallery {
 	display: flex;
-	border: none;
-align-items: end;
-	background: transparent;
 	gap: 1em;
 	margin-bottom: 2em;
 	margin-left: 2em;
+	text-decoration: none;
+	color: #000;
 }
 
 .categories {
@@ -360,11 +360,13 @@ align-items: end;
 	font-weight: 500;
 	align-self: center;
 }
+
 .logout-btn {
 	cursor: pointer;
 }
+
 #log-btn-page {
-	font-weight: 600;	
+	font-weight: 600;
 }
 
 
@@ -383,4 +385,51 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
+}
+
+.modal {
+	position: fixed;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+	display: none;
+}
+
+.modal-wrapper {
+	overflow: auto;
+	max-width: 630px;
+	max-height: 690px;
+	height: 100%;
+	padding: 20px;
+	background-color: #FFF;
+}
+
+#titlemodal {
+	text-align: center;
+	font-family: Work Sans;
+	font-size: 26px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	color: #000;
+}
+.modal-top-btn{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+.modal-top-btn button{
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+.back-modal{
+	display: none;
+}
+.close-modal {
 }
