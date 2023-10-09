@@ -10,7 +10,6 @@ const categories = document.querySelector(".categories")
 const logBtn = document.querySelector("#log-btn")
 let token = window.localStorage.getItem("token")
 let modal = null
-let modalGallery = false
 
 initWorks()
 displayCatsBtn()
@@ -33,6 +32,7 @@ async function getCats(api_url) {
 }
 
 async function initWorks() {
+    works.clear()
     const data = await getWorks(api_url)
     data.forEach(work => {
         works.add(work)
@@ -42,6 +42,7 @@ async function initWorks() {
 
 const displayWorks = (selectedCat) => {
     selectedWorks.clear()
+    gallery.innerHTML = ""
     if (selectedCat == 0) {
         works.forEach(work => {
             selectedWorks.add(work)
@@ -69,16 +70,9 @@ const deleteWork = (e) => {
         method: "DELETE",
     }).then(response => {
         if (response.status == 204) {
-            works.forEach(work => {
-                if (work.id == workId) {
-                    works.delete(work)
-                }
+            initWorks().then(() => {
+                displayModalImages()
             })
-            gallery.innerHTML = ""
-            initWorks()
-            modalGallery = false
-            document.querySelector(".modal-gallery").innerHTML = ""
-            displayModalImages()
         }
 
     })
@@ -145,9 +139,11 @@ window.addEventListener("keydown", (e) => {
 
 /** display images on modal */
 const displayModalImages = () => {
+    console.log(works)
     if (modal !== null) {
-        if (!modalGallery) {
-            const modalGallery = document.querySelector(".modal-gallery")
+        if(works.size == 0) return
+        const modalGallery = document.querySelector(".modal-gallery")
+        modalGallery.innerHTML = ""
             works.forEach(work => {
                 modalGallery.innerHTML += `
                 <figure>
@@ -159,7 +155,6 @@ const displayModalImages = () => {
                 <img src="${work.imageUrl}" alt="${work.title}">
                 </figure>`
             })
-        }
         document.querySelectorAll(".modal-delete-btn").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 e.preventDefault()
