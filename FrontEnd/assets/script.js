@@ -69,7 +69,7 @@ const deleteWork = (e) => {
         headers: { "Authorization": "Bearer " + token },
         method: "DELETE",
     }).then(response => {
-        if (response.status == 204) {
+        if (response.status === 204) {
             initWorks().then(() => {
                 displayModalImages()
             })
@@ -139,7 +139,6 @@ window.addEventListener("keydown", (e) => {
 
 /** display images on modal */
 const displayModalImages = () => {
-    console.log(works)
     if (modal !== null) {
         if(works.size == 0) return
         const modalGallery = document.querySelector(".modal-gallery")
