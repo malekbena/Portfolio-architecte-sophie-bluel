@@ -116,6 +116,10 @@ const openAddModal = () => {
     categories.forEach(cat => {
         document.querySelector("#form-category").innerHTML += `<option value="${cat.id}">${cat.name}</option>`
     })
+    document.querySelector("#form-submit").addEventListener("click", (e) => {
+        e.preventDefault()
+        addWork()
+    })
 }
 const closeAddModal = () => {
     if (modal === null) return
@@ -220,5 +224,30 @@ if (token !== null) {
     </a>`
     document.querySelector("#edit-gallery").addEventListener("click", (e) => {
         openModal(e)
+    })
+}
+
+/*** add work ***/
+const addWork = () => {
+    const image = document.querySelector("#form-image").files[0]
+    const title = document.querySelector("#form-title").value
+    const category = document.querySelector("#form-category").value
+    const formData = new FormData()
+    formData.append("image", image)
+    formData.append("title", title)
+    formData.append("category", category)
+    formData.append("useId", 1)
+    const url = api_url + "works"
+    fetch(url, {
+        headers: { "Authorization": "Bearer " + token },
+        method: "POST",
+        body: formData
+    }).then(response => {
+        if (response.status === 201) {
+            initWorks().then(() => {
+                displayModalImages()
+                closeAddModal()
+            })
+        }
     })
 }
