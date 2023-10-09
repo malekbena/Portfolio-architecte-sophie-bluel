@@ -346,16 +346,12 @@ nav a {
 	align-self: center;
 }
 .logout-btn {
-	/* color: #3D3D3D;
-	font-family: Work Sans;
-	font-size: 14px;
-	font-style: normal;
-	font-weight: 500;
-	align-self: center;
-	border: none;
-	background-color: transparent; */
 	cursor: pointer;
 }
+#log-btn-page {
+	font-weight: 600;	
+}
+
 
 input[type="submit"] {
 	font-family: 'Syne';
