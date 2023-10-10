@@ -31,11 +31,20 @@
 <main>
 <section id="login">
     <h2>Login</h2>
+	<div class="error" id="form-error">
+		<p>Email ou mot de passe incorrect</p>
+	</div>
 <form id="login-form">
     <label for="email">Email</label>
-    <input type="text" name="email" id="email">
+    <input type="text" name="email" id="email" required />
+	<div class="error" id="email-error">
+		<p>Adresse email invalide</p>
+	</div>
     <label for="password">Mot de passe</label>
-    <input type="password" name="password" id="password">
+    <input type="password" name="password" id="password" required />
+	<div class="error" id="password-error">
+		<p>Mot de passe invalide</p>
+	</div>
     <input id="login-btn" type="submit" value="Se connecter">
 	<a href="#">Mot de passe oublié</a>
 </form>

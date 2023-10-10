@@ -8,10 +8,14 @@ const user = {
 
 const loginForm = document.querySelector("#login-form")
 const loginBtn = document.querySelector("#login-btn")
+const emailError = document.querySelector("#email-error")
+const passwordError = document.querySelector("#password-error")
+const formError = document.querySelector("#form-error")
 
+let isValid = false
 let loginData = new Set()
 
-function login() {
+const login = () => {
     fetch(api_url, {
         method: "POST",
         headers: {
@@ -26,14 +30,39 @@ function login() {
         .then((response) => response.json())
         .then((data) => {
             if (data.message === "user not found") {
-                alert("Email ou mot de passe incorrect") 
-            }else {
-                window.localStorage.setItem("token", data.token)
-                window.location.href = "index.html"
+                formError.style.display = "block"
+            } else {
+                if (data.token) {
+                    window.localStorage.setItem("token", data.token)
+                    window.location.href = "index.html"
+                }else {
+                    formError.style.display = "block"
+                }
             }
         })
 }
 loginBtn.addEventListener("click", (e) => {
     e.preventDefault()
-    login()
+    checkForm()
 })
+
+const checkForm = () => {
+    if (user.email.value === "") {
+        emailError.style.display = "block"
+        isValid = false
+    } else {
+        emailError.style.display = "none"
+        isValid = true
+    }
+    if (user.password.value === "") {
+        passwordError.style.display = "block"
+        isValid = false
+    }else {
+        passwordError.style.display = "none"
+        isValid = true
+    }
+    if (isValid) {
+        login()
+    }
+
+}

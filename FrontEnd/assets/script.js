@@ -237,6 +237,9 @@ const addWork = () => {
     formData.append("title", title)
     formData.append("category", category)
     formData.append("useId", 1)
+
+    //validation du formulaire avant envoie à faire
+    
     const url = api_url + "works"
     fetch(url, {
         headers: { "Authorization": "Bearer " + token },
