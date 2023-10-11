@@ -123,7 +123,10 @@ const openModal = (e) => {
 
 }
 
-const closeModal = () => {
+const closeModal = (e) => {
+    if (e !== undefined) {
+        e.preventDefault()
+    }
     if (modal === null) return
     modal.style.display = "none"
     modal.setAttribute("aria-hidden", "true")
