@@ -531,7 +531,15 @@ footer nav ul {
 	background: #E8F1F6;
 	height: 169px;
 	width: 420px;
-	padding: 2em;
+	overflow: hidden;
+}
+
+#form-image-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
 }
 
 .form-image-wrapper label {
@@ -553,6 +561,17 @@ footer nav ul {
 	font-size: 10px;
 	font-weight: 400;
 	margin-top: 7px;
+}
+
+#form-image-preview {
+	display: none;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
+#form-image-preview img {
+	width: 130px;
 }
 
 .modal form {
@@ -578,7 +597,7 @@ footer nav ul {
 	background: #FFF;
 }
 
-.modal label {
+.form-label {
 	margin: 2em 0 1em 0;
 }
 
