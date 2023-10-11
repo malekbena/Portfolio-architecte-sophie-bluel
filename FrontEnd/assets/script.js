@@ -258,7 +258,7 @@ const checkBtnColor = (myForm) => {
 const closeAddModal = () => {
     if (modal === null) return
     const backModal = document.querySelector(".back-modal")
-    document.querySelector("#titlemodal").innerHTML = "Modifier la galerie"
+    document.querySelector("#titlemodal").innerHTML = "Galerie photo"
     document.querySelector(".modal-gallery").style.display = "grid"
     document.querySelector(".modal-content").style.display = "block"
     document.querySelector(".modal-form").style.display = "none"
