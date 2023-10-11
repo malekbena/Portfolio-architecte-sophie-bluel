@@ -371,7 +371,7 @@ nav a {
 }
 
 
-input[type="submit"] {
+.form-submit-input {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -509,12 +509,13 @@ footer nav ul {
 .modal-btn {
 	font-family: 'Syne';
 	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
+	color: #FFF;
+	background: #1D6154;
 	text-align: center;
-	border-radius: 60px;
-	border: none;
+	border: none; 
 	padding: 10px 50px;
+	font-size: 14px;
+	border-radius: 60px;
 	cursor: pointer;
 }
 
@@ -581,7 +582,7 @@ footer nav ul {
 	flex-direction: column;
 }
 
-.modal input {
+.modal-form-element {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
@@ -601,13 +602,6 @@ footer nav ul {
 	margin: 2em 0 1em 0;
 }
 
-.modal input[type="submit"] {
-	font-family: Syne;
-	text-align: center;
-	font-size: 14px;
-	font-weight: 700;
-	background: #A7A7A7;
-	color: #FFF;
-	border-radius: 60px;
-
+#form-submit {
+background: #A7A7A7;
 }

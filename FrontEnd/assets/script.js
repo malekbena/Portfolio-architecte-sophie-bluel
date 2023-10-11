@@ -120,7 +120,7 @@ const openModal = (e) => {
     modal.querySelector(".modal-wrapper").addEventListener("click", stopPropagation)
     displayModalImages()
     modal.querySelector(".modal-btn").addEventListener("click", openAddModal)
-    
+
 }
 
 const closeModal = (e) => {
@@ -162,7 +162,7 @@ const displayModalImages = () => {
                 </button>
                 <img src="${work.imageUrl}" alt="${work.title}">
                 </figure>`
-            })
+        })
         document.querySelectorAll(".modal-delete-btn").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 e.preventDefault()
@@ -186,8 +186,11 @@ const openAddModal = () => {
         document.querySelector("#form-category").innerHTML += `<option value="${cat.id}">${cat.name}</option>`
     })
 
+    const formData = new FormData()
     document.querySelector("#form-image").addEventListener("change", (e) => {
         const file = document.querySelector("#form-image").files[0]
+        formData.append("image", file)
+        checkBtnColor(formData)
         const reader = new FileReader()
         reader.addEventListener("load", (e) => {
             document.querySelector("#form-image-preview").style.display = "flex"
@@ -197,12 +200,28 @@ const openAddModal = () => {
         reader.readAsDataURL(file)
         reader.removeEventListener
     })
+    document.querySelector("#form-title").addEventListener("change", (e) => {
+        formData.append("title", e.target.value)
+        checkBtnColor(formData)
+    })
+    document.querySelector("#form-category").addEventListener("change", (e) => {
+        formData.append("categoryId", e.target.value)
+        checkBtnColor(formData)
+    })
 
     document.querySelector("#form-submit").addEventListener("click", (e) => {
         e.preventDefault()
-        addWork()
+        // addWork()
+        console.log([...formData])
     })
+
 }
+const checkBtnColor = (formData) => {
+    if (formData.get("image") !== null && formData.get("title") !== null && formData.get("categoryId") !== null) {
+        document.querySelector("#form-submit").style.backgroundColor = "#1D6154"
+    }
+}
+
 const closeAddModal = () => {
     if (modal === null) return
     const backModal = document.querySelector(".back-modal")
@@ -222,14 +241,13 @@ const addWork = () => {
     const image = document.querySelector("#form-image").files[0]
     const title = document.querySelector("#form-title").value
     const category = document.querySelector("#form-category").value
-    const formData = new FormData()
     formData.append("image", image)
     formData.append("title", title)
     formData.append("category", category)
     formData.append("useId", 1)
 
     //validation du formulaire avant envoie à faire
-    
+
 
 
     // const url = api_url + "works"
@@ -270,8 +288,7 @@ if (token !== null) {
         </svg>
         modifier
         </a>`
-        document.querySelector("#edit-gallery").addEventListener("click", (e) => {
-            openModal(e)
-        })
-    }
-    
+    document.querySelector("#edit-gallery").addEventListener("click", (e) => {
+        openModal(e)
+    })
+}
