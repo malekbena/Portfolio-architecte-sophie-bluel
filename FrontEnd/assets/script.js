@@ -123,9 +123,8 @@ const openModal = (e) => {
 
 }
 
-const closeModal = (e) => {
+const closeModal = () => {
     if (modal === null) return
-    e.preventDefault()
     modal.style.display = "none"
     modal.setAttribute("aria-hidden", "true")
     modal.removeAttribute("aria-modal")
@@ -174,6 +173,11 @@ const displayModalImages = () => {
 
 /*** modal add form ***/
 const openAddModal = () => {
+    let myForm = {
+        image: null,
+        title: null,
+        categoryId: null
+    }
     if (modal === null) return
     document.querySelector("#titlemodal").innerHTML = "Ajout photo"
     document.querySelector(".modal-gallery").style.display = "none"
@@ -181,44 +185,70 @@ const openAddModal = () => {
     document.querySelector(".modal-form").style.display = "flex"
     document.querySelector(".back-modal").style.display = "flex"
     document.querySelector(".back-modal").addEventListener("click", closeAddModal)
+    document.querySelector("#form-image-content").style.display = "flex"
     document.querySelector("#form-category").innerHTML = "<option value='0'></option>"
     categories.forEach(cat => {
         document.querySelector("#form-category").innerHTML += `<option value="${cat.id}">${cat.name}</option>`
     })
 
-    const formData = new FormData()
     document.querySelector("#form-image").addEventListener("change", (e) => {
         const file = document.querySelector("#form-image").files[0]
-        formData.append("image", file)
-        checkBtnColor(formData)
-        const reader = new FileReader()
-        reader.addEventListener("load", (e) => {
-            document.querySelector("#form-image-preview").style.display = "flex"
-            document.querySelector("#form-image-content").style.display = "none"
-            document.querySelector("#form-image-preview img").src = e.target.result
-        })
-        reader.readAsDataURL(file)
-        reader.removeEventListener
+        if (file.size > 4000000) {
+            document.querySelector("#form-image-error").style.display = "block"
+            document.querySelector("#form-image-error").innerHTML = "Fichier trop volumineux"
+        } else {
+            if (file.type !== "image/jpeg" && file.type !== "image/png") {
+                document.querySelector("#form-image-error").style.display = "block"
+                document.querySelector("#form-image-error").innerHTML = "Fichier non pris en charge"
+            }
+            myForm.image = file
+            checkBtnColor(myForm)
+            const reader = new FileReader()
+            reader.addEventListener("load", (e) => {
+                document.querySelector("#form-image-preview").style.display = "flex"
+                document.querySelector("#form-image-content").style.display = "none"
+                document.querySelector("#form-image-preview img").src = e.target.result
+            })
+            reader.readAsDataURL(file)
+            reader.removeEventListener
+        }
     })
     document.querySelector("#form-title").addEventListener("change", (e) => {
-        formData.append("title", e.target.value)
-        checkBtnColor(formData)
+        myForm.title = e.target.value
+        checkBtnColor(myForm)
     })
     document.querySelector("#form-category").addEventListener("change", (e) => {
-        formData.append("categoryId", e.target.value)
-        checkBtnColor(formData)
+        myForm.categoryId = e.target.value
+        checkBtnColor(myForm)
     })
 
     document.querySelector("#form-submit").addEventListener("click", (e) => {
         e.preventDefault()
-        // addWork()
-        console.log([...formData])
+        addWork(myForm)
     })
 
 }
-const checkBtnColor = (formData) => {
-    if (formData.get("image") !== null && formData.get("title") !== null && formData.get("categoryId") !== null) {
-        document.querySelector("#form-submit").style.backgroundColor = "#1D6154"
+const checkBtnColor = (myForm) => {
+    let isImage = false
+    let isTitle = false
+    let isCategory = false
+    const formSubmit = document.querySelector("#form-submit")
+    if (myForm.image !== null) {
+        isImage = true
+    }
+    if (myForm.title !== null && myForm.title !== "") {
+        isTitle = true
+    }
+    if (myForm.categoryId !== null && myForm.categoryId !== "0") {
+        isCategory = true
+    }
+    if (isImage && isTitle && isCategory) {
+        formSubmit.style.backgroundColor = "#1D6154"
+        formSubmit.disabled = false
+
+    } else {
+        formSubmit.style.backgroundColor = "#A7A7A7"
+        formSubmit.disabled = true
     }
 }
 
@@ -233,6 +263,7 @@ const closeAddModal = () => {
     backModal.style.display = "none"
     document.querySelector("#form-category").innerHTML = ""
     document.querySelector("#form-image-preview").style.display = "none"
+    document.querySelector("#form-add").reset()
 }
 
 
@@ -241,28 +272,24 @@ const addWork = () => {
     const image = document.querySelector("#form-image").files[0]
     const title = document.querySelector("#form-title").value
     const category = document.querySelector("#form-category").value
+    const formData = new FormData()
     formData.append("image", image)
     formData.append("title", title)
     formData.append("category", category)
     formData.append("useId", 1)
 
-    //validation du formulaire avant envoie à faire
-
-
-
-    // const url = api_url + "works"
-    // fetch(url, {
-    //     headers: { "Authorization": "Bearer " + token },
-    //     method: "POST",
-    //     body: formData
-    // }).then(response => {
-    //     if (response.status === 201) {
-    //         initWorks().then(() => {
-    //             displayModalImages()
-    //             closeAddModal()
-    //         })
-    //     }
-    // })
+    const url = api_url + "works"
+    fetch(url, {
+        headers: { "Authorization": "Bearer " + token },
+        method: "POST",
+        body: formData
+    }).then(response => {
+        if (response.status === 201) {
+            initWorks().then(() => {
+                closeModal()
+            })
+        }
+    })
 }
 /*** display login or logout btn ***/
 if (token !== null) {

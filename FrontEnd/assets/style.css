@@ -574,6 +574,9 @@ footer nav ul {
 #form-image-preview img {
 	width: 130px;
 }
+#form-image-error {
+	display: none;
+}
 
 .modal form {
 	text-align: left;
