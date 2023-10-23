@@ -176,12 +176,13 @@ const displayModalImages = () => {
 
 /*** modal add form ***/
 const openAddModal = () => {
+    if (modal === null) return
     let myForm = {
         image: null,
         title: null,
         categoryId: null
     }
-    if (modal === null) return
+    checkBtnColor(myForm)
     document.querySelector("#titlemodal").innerHTML = "Ajout photo"
     document.querySelector(".modal-gallery").style.display = "none"
     document.querySelector(".modal-content").style.display = "none"
@@ -190,6 +191,8 @@ const openAddModal = () => {
     document.querySelector(".back-modal").addEventListener("click", closeAddModal)
     document.querySelector("#form-image-content").style.display = "flex"
     document.querySelector("#form-category").innerHTML = "<option value='0'></option>"
+    
+    
     categories.forEach(cat => {
         document.querySelector("#form-category").innerHTML += `<option value="${cat.id}">${cat.name}</option>`
     })
@@ -224,13 +227,12 @@ const openAddModal = () => {
         myForm.categoryId = e.target.value
         checkBtnColor(myForm)
     })
-
-    document.querySelector("#form-submit").addEventListener("click", (e) => {
-        e.preventDefault()
-        addWork(myForm)
-    })
-
 }
+document.querySelector("#form-submit").addEventListener("click", (e) => {
+    e.preventDefault()
+    addWork()
+})
+
 const checkBtnColor = (myForm) => {
     let isImage = false
     let isTitle = false
