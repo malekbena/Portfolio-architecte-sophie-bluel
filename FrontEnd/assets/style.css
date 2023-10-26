@@ -266,6 +266,7 @@ nav a {
 	border-radius: 60px;
 	font-size: 16px;
 	padding: 10px 30px;
+	cursor: pointer;
 }
 
 .cats-btn-selected {
@@ -464,8 +465,6 @@ footer nav ul {
 .back-modal {
 	display: none;
 }
-
-.close-modal {}
 
 .modal-gallery {
 	display: grid;

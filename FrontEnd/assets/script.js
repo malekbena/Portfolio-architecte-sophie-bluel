@@ -29,7 +29,7 @@ async function getCategories() {
 }
 async function initCategories() {
     categories.clear()
-    const data = await getCategories(api_url)
+    const data = await getCategories()
     data.forEach(cat => {
         categories.add(cat)
     })
@@ -38,7 +38,7 @@ async function initCategories() {
 
 async function initWorks() {
     works.clear()
-    const data = await getWorks(api_url)
+    const data = await getWorks()
     data.forEach(work => {
         works.add(work)
     })
